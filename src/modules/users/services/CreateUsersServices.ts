@@ -1,8 +1,8 @@
 import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
+import AppError from '@shared/errors/AppError';
 import Users from '../infra/typeorm/entities/Users';
-import AppError from '../../../shared/errors/AppError';
 
 interface ParmsRequest {
   name: string;

@@ -2,9 +2,9 @@ import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
 
-import UploadConfig from '../../../config/upload';
+import UploadConfig from '@config/upload';
+import AppError from '@shared/errors/AppError';
 import Users from '../infra/typeorm/entities/Users';
-import AppError from '../../../shared/errors/AppError';
 
 interface ParmsRequest {
   user_id: string;
