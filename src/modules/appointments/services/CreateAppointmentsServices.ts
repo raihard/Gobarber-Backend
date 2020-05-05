@@ -3,9 +3,9 @@ import { getCustomRepository } from 'typeorm';
 
 import AppError from '@shared/errors/AppError';
 import Appointment from '../infra/typeorm/entities/Appointments';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import AppointmentsRepository from '../infra/typeorm/repositories/AppointmentsRepository';
 
-interface ParmsRequest {
+interface IParmsRequest {
   provider_UserId: string;
   parsedDate: Date;
 }
@@ -14,7 +14,7 @@ class CreateAppointmentsServices {
   public async execute({
     parsedDate,
     provider_UserId,
-  }: ParmsRequest): Promise<Appointment> {
+  }: IParmsRequest): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
     const startOfHourAgendamento = startOfHour(parsedDate);
