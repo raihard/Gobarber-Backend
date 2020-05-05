@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 import UploadConfig from '../../../config/upload';
-import User from '../entities/Users';
+import Users from '../infra/typeorm/entities/Users';
 import AppError from '../../../shared/errors/AppError';
 
 interface ParmsRequest {
@@ -15,8 +15,8 @@ class UploadAvatarUserServices {
   public async execute({
     user_id,
     avatar_filename,
-  }: ParmsRequest): Promise<User> {
-    const usersRepository = getRepository(User);
+  }: ParmsRequest): Promise<Users> {
+    const usersRepository = getRepository(Users);
 
     const user = await usersRepository.findOne({ id: user_id });
 
