@@ -1,4 +1,5 @@
 import { startOfHour } from 'date-fns';
+import { injectable, inject } from 'tsyringe';
 
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
 import AppError from '@shared/errors/AppError';
@@ -8,9 +9,12 @@ interface IParmsRequest {
   provider_UserId: string;
   parsedDate: Date;
 }
-
+@injectable()
 class CreateAppointmentsServices {
-  constructor(private appointmentsRepository: IAppointmentsRepository) {}
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) {}
 
   public async execute({
     parsedDate,

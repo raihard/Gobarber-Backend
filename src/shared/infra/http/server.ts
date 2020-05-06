@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import UploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError'; // '@shared/errors/AppError'; // errors/AppError';
+import '../../container';
 import routes from './routes';
 import '../typeorm';
 

@@ -1,12 +1,17 @@
 import { hash } from 'bcryptjs';
+import { injectable, inject } from 'tsyringe';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 import ICreateUsersDTO from '@modules/users/dtos/ICreateUsersDTO';
 import Users from '../infra/typeorm/entities/Users';
 
+@injectable()
 class CreateUsersServices {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   public async execute({
     name,
