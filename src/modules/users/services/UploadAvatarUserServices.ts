@@ -1,24 +1,25 @@
-import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
 
 import UploadConfig from '@config/upload';
+
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 import Users from '../infra/typeorm/entities/Users';
 
-interface ParmsRequest {
+interface IParmsRequest {
   user_id: string;
   avatar_filename: string;
 }
 
 class UploadAvatarUserServices {
+  constructor(private usersRepository: IUsersRepository) {}
+
   public async execute({
     user_id,
     avatar_filename,
-  }: ParmsRequest): Promise<Users> {
-    const usersRepository = getRepository(Users);
-
-    const user = await usersRepository.findOne({ id: user_id });
+  }: IParmsRequest): Promise<Users> {
+    const user = await this.usersRepository.findById(user_id);
 
     if (!user) throw new AppError('User not found', 401);
 
@@ -30,7 +31,7 @@ class UploadAvatarUserServices {
 
     user.avatar = avatar_filename;
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
     return user;
   }
 }
