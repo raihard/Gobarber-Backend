@@ -1,16 +1,19 @@
-import { hash } from 'bcryptjs';
 import { injectable, inject } from 'tsyringe';
 
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
+import Users from '@modules/users/infra/typeorm/entities/Users';
+
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUsersDTO from '@modules/users/dtos/ICreateUsersDTO';
-import Users from '../infra/typeorm/entities/Users';
+import IHashPassword from '@modules/users/providers/HashPassword/IHashPassword';
 
 @injectable()
 class CreateUsersServices {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+    @inject('HashPassword')
+    private hashPassword: IHashPassword,
   ) {}
 
   public async execute({
@@ -22,7 +25,7 @@ class CreateUsersServices {
 
     if (existUser) throw new AppError('Email já cadastrado!');
 
-    const hashPassword = await hash(password, 8);
+    const hashPassword = await this.hashPassword.HashCrete(password);
     const user = await this.usersRepository.create({
       name,
       email,
