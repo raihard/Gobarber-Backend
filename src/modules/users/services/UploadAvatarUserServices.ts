@@ -1,10 +1,7 @@
 import { injectable, inject } from 'tsyringe';
-import path from 'path';
-import fs from 'fs';
-
-import UploadConfig from '@config/upload';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import IStorageFile from '@shared/container/providers/StorageFile/IStorageFile';
 import AppError from '@shared/errors/AppError';
 import Users from '../infra/typeorm/entities/Users';
 
@@ -18,6 +15,8 @@ class UploadAvatarUserServices {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+    @inject('StorageFile')
+    private storageFile: IStorageFile,
   ) {}
 
   public async execute({
@@ -29,12 +28,11 @@ class UploadAvatarUserServices {
     if (!user) throw new AppError('User not found', 401);
 
     if (user.avatar) {
-      const userAvatar = path.join(UploadConfig.pathUploads, user.avatar);
-      const userAvatarExist = await fs.promises.stat(userAvatar);
-      if (userAvatarExist) await fs.promises.unlink(userAvatar);
+      await this.storageFile.RemoveFile(user.avatar);
     }
+    const userAvatar = await this.storageFile.SaveFile(avatar_filename);
 
-    user.avatar = avatar_filename;
+    user.avatar = userAvatar;
 
     await this.usersRepository.save(user);
     return user;
