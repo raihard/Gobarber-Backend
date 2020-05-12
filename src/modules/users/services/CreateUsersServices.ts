@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import Users from '@modules/users/infra/typeorm/entities/Users';
+import User from '@modules/users/infra/typeorm/entities/User';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUsersDTO from '@modules/users/dtos/ICreateUsersDTO';
@@ -20,7 +20,7 @@ class CreateUsersServices {
     name,
     email,
     password,
-  }: ICreateUsersDTO): Promise<Users> {
+  }: ICreateUsersDTO): Promise<User> {
     const existUser = await this.usersRepository.findByEmail(email);
 
     if (existUser) throw new AppError('Email já cadastrado!');

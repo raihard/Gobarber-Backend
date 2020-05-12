@@ -1,9 +1,9 @@
-import Users from '../infra/typeorm/entities/Users';
+import User from '../infra/typeorm/entities/User';
 import ICreateUsersDTO from '../dtos/ICreateUsersDTO';
 
 export default interface IAppointmentsRepository {
-  create(date: ICreateUsersDTO): Promise<Users>;
-  findById(id: string): Promise<Users | undefined>;
-  findByEmail(email: string): Promise<Users | undefined>;
-  save(users: Users): Promise<Users | undefined>;
+  create(date: ICreateUsersDTO): Promise<User>;
+  findById(id: string): Promise<User | undefined>;
+  findByEmail(email: string): Promise<User | undefined>;
+  save(user: User): Promise<User | undefined>;
 }

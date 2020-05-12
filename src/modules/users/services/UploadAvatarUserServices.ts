@@ -3,7 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IStorageFile from '@shared/container/providers/StorageFile/IStorageFile';
 import AppError from '@shared/errors/AppError';
-import Users from '../infra/typeorm/entities/Users';
+import User from '../infra/typeorm/entities/User';
 
 interface IParmsRequest {
   user_id: string;
@@ -22,7 +22,7 @@ class UploadAvatarUserServices {
   public async execute({
     user_id,
     avatar_filename,
-  }: IParmsRequest): Promise<Users> {
+  }: IParmsRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) throw new AppError('User not found', 401);

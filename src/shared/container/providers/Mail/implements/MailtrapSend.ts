@@ -1,9 +1,9 @@
+import ISendMailDTO from '@shared/container/dtos/ISendMailDTO';
 import ISendMail from '../ISendMail';
 
 export default class MailtrapSend implements ISendMail {
-  private storage: string[] = [];
-
-  public async SendEmail(email: string): Promise<string> {
-    return '';
+  public async SendEmail({ to, body }: ISendMailDTO): Promise<string> {
+    console.log('to', to);
+    return body;
   }
 }
