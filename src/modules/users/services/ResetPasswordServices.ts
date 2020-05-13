@@ -35,7 +35,7 @@ class RecoverPasswordServices {
 
     if (!userToken) throw new AppError('Link expired or not exist', 401);
 
-    const user = await this.usersRepository.findById(userToken.User_Id);
+    const user = await this.usersRepository.findById(userToken.user_id);
 
     if (!user) throw new AppError('Email not exist', 401);
 
