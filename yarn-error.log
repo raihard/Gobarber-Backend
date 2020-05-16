@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @type/jest -D
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add Handlebars
 
 PATH: 
   C:\Program Files\Microsoft MPI\Bin\;C:\Python27\;C:\Python27\Scripts;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Users\Radames\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\wamp64\bin\php\php7.0.10;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Java\jdk1.8.0_161\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Microsoft Emulator Manager\1.0\;C:\Program Files\dotnet\;C:\Program Files\Java\jre1.8.0_171\bin;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Users\Radames\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;G:\SDK\sdk;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\RailsInstaller\Ruby2.2.0\bin;C:\wamp64\bin\mysql\mysql5.7.9\bin;C:\Users\Radames\AppData\Local\Microsoft\WindowsApps;C:\Users\Radames\AppData\Roaming\Composer\vendor\bin;C:\Users\Radames\.dotnet\tools;C:\Users\Radames\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Radames\AppData\Local\Microsoft\WindowsApps;C:\Program Files\MongoDB\Server\4.2\bin;C:\Users\Radames\AppData\Local\Yarn\bin;C:\Users\Radames\AppData\Roaming\npm;G:\SDK\sdk\platform-tools;G:\SDK\sdk\tools;
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@type%2fjest: Not found
+  Error: https://registry.yarnpkg.com/Handlebars: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66084:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140727:22)
       at Request.emit (events.js:315:20)
@@ -47,6 +47,7 @@ npm manifest:
       "express-async-errors": "^3.1.1",
       "jsonwebtoken": "^8.5.1",
       "multer": "^1.4.2",
+      "nodemailer": "^6.4.6",
       "pg": "^8.0.2",
       "reflect-metadata": "^0.1.13",
       "tsyringe": "^4.2.0",
@@ -57,8 +58,10 @@ npm manifest:
       "@types/bcryptjs": "^2.4.2",
       "@types/cors": "^2.8.6",
       "@types/express": "^4.17.6",
+      "@types/jest": "^25.2.1",
       "@types/jsonwebtoken": "^8.3.9",
       "@types/multer": "^1.4.2",
+      "@types/nodemailer": "^6.4.0",
       "@typescript-eslint/eslint-plugin": "^2.28.0",
       "@typescript-eslint/parser": "^2.28.0",
       "eslint": "^6.8.0",
@@ -517,6 +520,16 @@ Lockfile:
       source-map "^0.6.1"
       write-file-atomic "^3.0.0"
   
+  "@jest/types@^25.5.0":
+    version "25.5.0"
+    resolved "https://registry.yarnpkg.com/@jest/types/-/types-25.5.0.tgz#4d6a4793f7b9599fc3680877b856a97dbccf2a9d"
+    integrity sha512-OXD0RgQ86Tu3MazKo8bnrkDRaDXXMGUqd+kTtLtK1Zb7CRzQcaSRPPPV37SvYTdevXEBVxe0HXylEjs8ibkmCw==
+    dependencies:
+      "@types/istanbul-lib-coverage" "^2.0.0"
+      "@types/istanbul-reports" "^1.1.1"
+      "@types/yargs" "^15.0.0"
+      chalk "^3.0.0"
+  
   "@jest/types@^26.0.1":
     version "26.0.1"
     resolved "https://registry.yarnpkg.com/@jest/types/-/types-26.0.1.tgz#b78333fbd113fa7aec8d39de24f88de8686dac67"
@@ -656,6 +669,14 @@ Lockfile:
       "@types/istanbul-lib-coverage" "*"
       "@types/istanbul-lib-report" "*"
   
+  "@types/jest@^25.2.1":
+    version "25.2.1"
+    resolved "https://registry.yarnpkg.com/@types/jest/-/jest-25.2.1.tgz#9544cd438607955381c1bdbdb97767a249297db5"
+    integrity sha512-msra1bCaAeEdkSyA0CZ6gW1ukMIvZ5YoJkdXw/qhQdsuuDlFTcEUrUw8CLCPt2rVRUfXlClVvK2gvPs9IokZaA==
+    dependencies:
+      jest-diff "^25.2.1"
+      pretty-format "^25.2.1"
+  
   "@types/json-schema@^7.0.3":
     version "7.0.4"
     resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
@@ -689,6 +710,13 @@ Lockfile:
     version "13.11.1"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-13.11.1.tgz#49a2a83df9d26daacead30d0ccc8762b128d53c7"
     integrity sha512-eWQGP3qtxwL8FGneRrC5DwrJLGN4/dH1clNTuLfN81HCrxVtxRjygDTUoZJ5ASlDEeo0ppYFQjQIlXhtXpOn6g==
+  
+  "@types/nodemailer@^6.4.0":
+    version "6.4.0"
+    resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.0.tgz#d8c039be3ed685c4719a026455555be82c124b74"
+    integrity sha512-KY7bFWB0MahRZvVW4CuW83qcCDny59pJJ0MQ5ifvfcjNwPlIT0vW4uARO4u1gtkYnWdhSvURegecY/tzcukJcA==
+    dependencies:
+      "@types/node" "*"
   
   "@types/normalize-package-data@^2.4.0":
     version "2.4.0"
@@ -1670,6 +1698,11 @@ Lockfile:
     dependencies:
       readable-stream "1.1.x"
       streamsearch "0.1.2"
+  
+  diff-sequences@^25.2.6:
+    version "25.2.6"
+    resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-25.2.6.tgz#5f467c00edd35352b7bca46d7927d60e687a76dd"
+    integrity sha512-Hq8o7+6GaZeoFjtpgvRBUknSXNeJiCx7V9Fr94ZMljNiCr9n9L8H8aJqgWOQiDDGdyn29fRNcDdRVJ5fdyihfg==
   
   diff-sequences@^26.0.0:
     version "26.0.0"
@@ -3003,6 +3036,16 @@ Lockfile:
       micromatch "^4.0.2"
       pretty-format "^26.0.1"
   
+  jest-diff@^25.2.1:
+    version "25.5.0"
+    resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-25.5.0.tgz#1dd26ed64f96667c068cef026b677dfa01afcfa9"
+    integrity sha512-z1kygetuPiREYdNIumRpAHY6RXiGmp70YHptjdaxTWGmA085W3iCnXNx0DhflK3vwrKmrRWyY1wUpkPMVxMK7A==
+    dependencies:
+      chalk "^3.0.0"
+      diff-sequences "^25.2.6"
+      jest-get-type "^25.2.6"
+      pretty-format "^25.5.0"
+  
   jest-diff@^26.0.1:
     version "26.0.1"
     resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-26.0.1.tgz#c44ab3cdd5977d466de69c46929e0e57f89aa1de"
@@ -3053,6 +3096,11 @@ Lockfile:
       "@jest/types" "^26.0.1"
       jest-mock "^26.0.1"
       jest-util "^26.0.1"
+  
+  jest-get-type@^25.2.6:
+    version "25.2.6"
+    resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-25.2.6.tgz#0b0a32fab8908b44d508be81681487dbabb8d877"
+    integrity sha512-DxjtyzOHjObRM+sM1knti6or+eOgcGU4xVSb2HNP1TqO4ahsT+rqZg+nyqHWJSvWgKC5cG3QjGFBqxLghiF/Ig==
   
   jest-get-type@^26.0.0:
     version "26.0.0"
@@ -3865,6 +3913,11 @@ Lockfile:
       uuid "^7.0.3"
       which "^2.0.2"
   
+  nodemailer@^6.4.6:
+    version "6.4.6"
+    resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.6.tgz#d37f504f6560b36616f646a606894fe18819107f"
+    integrity sha512-/kJ+FYVEm2HuUlw87hjSqTss+GU35D4giOpdSfGp7DO+5h6RlJj7R94YaYHOkoxu1CSaM0d3WRBtCzwXrY6MKA==
+  
   normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.5.0:
     version "2.5.0"
     resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.5.0.tgz#e66db1838b200c1dfc233225d12cb36520e234a8"
@@ -4329,6 +4382,16 @@ Lockfile:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.4.tgz#2d1bae173e355996ee355ec9830a7a1ee05457ef"
     integrity sha512-SVJIQ51spzFDvh4fIbCLvciiDMCrRhlN3mbZvv/+ycjvmF5E73bKdGfU8QDLNmjYJf+lsGnDBC4UUnvTe5OO0w==
+  
+  pretty-format@^25.2.1, pretty-format@^25.5.0:
+    version "25.5.0"
+    resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-25.5.0.tgz#7873c1d774f682c34b8d48b6743a2bf2ac55791a"
+    integrity sha512-kbo/kq2LQ/A/is0PQwsEHM7Ca6//bGPPvU6UnsdDRSKTWxT/ru/xb88v4BJf6a69H+uTytOEsTusT9ksd/1iWQ==
+    dependencies:
+      "@jest/types" "^25.5.0"
+      ansi-regex "^5.0.0"
+      ansi-styles "^4.0.0"
+      react-is "^16.12.0"
   
   pretty-format@^26.0.1:
     version "26.0.1"

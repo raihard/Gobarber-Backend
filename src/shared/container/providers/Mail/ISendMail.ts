@@ -1,5 +1,5 @@
-import ISendMailDTO from '@shared/container/dtos/ISendMailDTO';
+import ISendMailDTO from '@shared/container/providers/Mail/dtos/ISendMailDTO';
 
-export default interface IStorageFile {
-  SendEmail(data: ISendMailDTO): Promise<string>;
+export default interface ISendMail {
+  SendEmail(data: ISendMailDTO): Promise<void>;
 }

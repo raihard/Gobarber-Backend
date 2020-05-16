@@ -1,10 +1,10 @@
-import ISendMailDTO from '@shared/container/dtos/ISendMailDTO';
-import ISendMail from '../../ISendMail';
+import ISendMailDTO from '@shared/container/providers/Mail/dtos/ISendMailDTO';
+import ISendMail from '@shared/container/providers/Mail/ISendMail';
 
 export default class FakeMailtrapSend implements ISendMail {
-  public async SendEmail({ to, body }: ISendMailDTO): Promise<string> {
-    console.log('to', to);
-    console.log('body', body);
-    return body;
+  private messages: ISendMailDTO[] = [];
+
+  public async SendEmail(message: ISendMailDTO): Promise<void> {
+    this.messages.push(message);
   }
 }

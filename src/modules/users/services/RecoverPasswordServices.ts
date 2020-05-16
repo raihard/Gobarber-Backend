@@ -4,6 +4,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IUserTokenRepository from '@modules/users/repositories/IUserTokenRepository';
 import ISendMail from '@shared/container/providers/Mail/ISendMail';
 import UserToken from '@modules/users/infra/typeorm/entities/UserToken';
+import path from 'path';
 
 interface IRequest {
   email: string;
@@ -29,11 +30,24 @@ class RecoverPasswordServices {
 
     if (!user) throw new AppError('Email not exist', 401);
 
-    const userToken = this.userTokenRepository.create(user.id);
+    const userToken = await this.userTokenRepository.create(user.id);
+    const templateForgotPasswor = path.resolve(
+      __dirname,
+      '..',
+      'template/forgot _password.hbs',
+    );
 
     await this.SendMail.SendEmail({
-      to: email,
-      body: 'Voçe esta recebendo um email de confirmação',
+      to: { name: user.name, email: user.email },
+      from: { name: 'Equipe GoBaber', email: 'Equipe@GoBarber.com' },
+      subject: 'Recuperação de senha',
+      templateData: {
+        templateFile: templateForgotPasswor,
+        varibles: {
+          name: user.name,
+          link: `http://localhost:3000/ResetPassword?token=${userToken.token}`,
+        },
+      },
     });
     return userToken;
   }
