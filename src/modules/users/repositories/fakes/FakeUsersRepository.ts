@@ -24,12 +24,12 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   public async findById(id: string): Promise<User | undefined> {
-    const user = await this.Users.find(userFind => userFind.id === id);
+    const user = this.Users.find(userFind => userFind.id === id);
     return user;
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.Users.find(userfind => userfind.email === email);
+    const user = this.Users.find(userfind => userfind.email === email);
     return user;
   }
 

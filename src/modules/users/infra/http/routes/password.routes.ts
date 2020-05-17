@@ -7,7 +7,6 @@ const routes = Router();
 const recovePasswordController = new RecovePasswordController();
 const resetPasswordController = new ResetPasswordController();
 
-routes.post('/forgot', recovePasswordController.create);
-routes.post('/reset', resetPasswordController.create);
+routes.post('/profile', recovePasswordController.create);
 
 export default routes;
