@@ -34,7 +34,7 @@
 
 **RF**
 
-- O usuários deve poder lisualizar todos os horarios agendados por ele do dia selecionado;
+- O usuários deve poder visualizar todos os horarios agendados por ele do dia selecionado;
 - Prestador deve receber e visualizar uma notificação de um novo agendamento não lidas;
 
 **RNF**

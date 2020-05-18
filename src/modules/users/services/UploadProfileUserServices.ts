@@ -53,10 +53,11 @@ class UploadProfileUserServices {
       user.password = await this.hashPassword.HashCrete(password);
     }
 
-    user.name = name;
-    user.email = email;
+    if (name) user.name = name;
+    if (email) user.email = email;
 
     await this.usersRepository.save(user);
+
     return user;
   }
 }

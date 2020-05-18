@@ -33,6 +33,10 @@ class FakeUsersRepository implements IUsersRepository {
     return user;
   }
 
+  public async findAll(): Promise<User[]> {
+    return this.Users;
+  }
+
   public async save(users: User): Promise<User | undefined> {
     const userIndex = this.Users.findIndex(user => user.id === users.id);
     if (userIndex) this.Users[userIndex] = users;
