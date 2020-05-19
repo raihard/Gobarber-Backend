@@ -2,12 +2,14 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+import moment from 'moment';
 
 import UploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError'; // '@shared/errors/AppError'; // errors/AppError';
 import '../../container';
 import routes from './routes';
 import '../typeorm';
+import 'moment/locale/pt-br';
 
 const app = express();
 app.use(cors());

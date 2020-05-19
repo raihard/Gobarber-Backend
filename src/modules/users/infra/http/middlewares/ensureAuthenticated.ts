@@ -19,12 +19,13 @@ export default function ensureAuthenticated(
 
   const [, token] = authHeader.split(' ');
 
-  const decoded = verify(token, authConfig.jwt.secret);
+  verify(token, authConfig.jwt.secret, (err, decoded) => {
+    if (err) throw new AppError(err.message, 401);
+    const { sub } = decoded as ITokenPayLoad;
+    request.user = {
+      id: sub,
+    };
 
-  const { sub } = decoded as ITokenPayLoad;
-  request.user = {
-    id: sub,
-  };
-
-  return next();
+    return next();
+  });
 }

@@ -22,7 +22,7 @@ class CreateAppointmentsServices {
   }: IParmsRequest): Promise<Appointment> {
     const startOfHourAgendamento = startOfHour(parsedDate);
 
-    const existAgendamento = await this.appointmentsRepository.buscaAgendamento(
+    const existAgendamento = await this.appointmentsRepository.findbyDate(
       startOfHourAgendamento,
     );
 

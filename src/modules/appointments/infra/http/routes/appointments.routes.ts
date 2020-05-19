@@ -9,8 +9,8 @@ routes.use(ensureAuthenticated);
 const appointmentsControlles = new AppointmentsControlles();
 
 // routes.get('/', async (request, response) => {
-//   // const ListaAgendamentos = await appointmentsRepository.find();
-//   // response.json(ListaAgendamentos);
+//   const ListaAgendamentos = await appointmentsRepository.find();
+//   response.json(ListaAgendamentos);
 // });
 
 routes.post('/', appointmentsControlles.create);

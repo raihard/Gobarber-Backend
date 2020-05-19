@@ -1,6 +1,9 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Between } from 'typeorm';
+import moment from 'moment';
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
 import ICreateAppointmentsDTO from '@modules/appointments/dtos/ICreateAppointmentsDTO';
+import IFindMonthProviserDTO from '@modules/appointments/dtos/IFindMonthProviserDTO';
+import IFindDayProviserDTO from '@modules/appointments/dtos/IFindDayProviserDTO';
 import Appointment from '../entities/Appointments';
 
 class AppointmentsRepository implements IAppointmentsRepository {
@@ -10,7 +13,44 @@ class AppointmentsRepository implements IAppointmentsRepository {
     this.ormRepository = getRepository(Appointment);
   }
 
-  public async buscaAgendamento(date: Date): Promise<Appointment | undefined> {
+  public async findAllDayProvider({
+    provider_UserId,
+    day,
+    month,
+    year,
+  }: IFindDayProviserDTO): Promise<Appointment[]> {
+    const dateStart = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD');
+    const dateEnd = moment(dateStart).add(1, 'd').add(-1, 'second');
+
+    const appointments = await this.ormRepository.find({
+      where: {
+        provider_UserId,
+        date: Between(dateStart, dateEnd),
+      },
+    });
+
+    return appointments;
+  }
+
+  public async findAllMonthProvider({
+    provider_UserId,
+    month,
+    year,
+  }: IFindMonthProviserDTO): Promise<Appointment[]> {
+    const dateStart = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
+    const dateEnd = moment(dateStart).add(1, 'month').add(-1, 'second');
+
+    const appointments = await this.ormRepository.find({
+      where: {
+        provider_UserId,
+        date: Between(dateStart, dateEnd),
+      },
+    });
+
+    return appointments;
+  }
+
+  public async findbyDate(date: Date): Promise<Appointment | undefined> {
     const appointment = await this.ormRepository.findOne({ where: { date } });
     return appointment;
   }
