@@ -1,28 +1,40 @@
 // import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
 import FakeAppointmentsRepository from '@modules/appointments/repositores/fakes/FakeAppointmentsRepository';
-import AppError from '@shared/errors/AppError';
-import CreateAppointmentsServices from './CreateAppointmentsServices';
+
+import ListAppointmentsServices from './ListAppointmentsServices';
 
 describe('ListAppointmentsServices', () => {
   it('should be able to list appointment', async () => {
     const fakeAppointmentsRepository = new FakeAppointmentsRepository();
-    const createAppointmentsServices = new CreateAppointmentsServices(
+
+    const appointment1 = await fakeAppointmentsRepository.create({
+      date: new Date('2020-04-04T08:00'),
+      user_id: '123',
+      provider_UserId: '321',
+    });
+
+    const appointment2 = await fakeAppointmentsRepository.create({
+      date: new Date('2020-04-04T10:00'),
+      user_id: '123',
+      provider_UserId: '321',
+    });
+
+    const appointment3 = await fakeAppointmentsRepository.create({
+      date: new Date('2020-04-04T12:00'),
+      user_id: '123',
+      provider_UserId: '321',
+    });
+    const listDayAvailability = new ListAppointmentsServices(
       fakeAppointmentsRepository,
     );
-    const parsedDate = new Date(2020, 4, 10, 11);
-    const provider_UserId = '123412';
-    const appointment = await createAppointmentsServices.execute({
-      parsedDate,
-      user_id: '321',
-      provider_UserId,
+
+    const appointments = await listDayAvailability.execute({
+      provider_UserId: '321',
+      day: 4,
+      month: 4,
+      year: 2020,
     });
-    expect(appointment).toHaveProperty('id');
-    expect(
-      createAppointmentsServices.execute({
-        parsedDate,
-        user_id: '321',
-        provider_UserId,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
+
+    expect(appointments).toEqual([appointment1, appointment2, appointment3]);
   });
 });

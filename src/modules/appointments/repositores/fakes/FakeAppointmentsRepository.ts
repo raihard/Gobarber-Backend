@@ -35,6 +35,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
     year,
   }: IFindDayProviserDTO): Promise<Appointment[]> {
     const datefind = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD');
+
     const listAppointment = this.appointments.filter(appointment => {
       return (
         appointment.provider_UserId === provider_UserId &&

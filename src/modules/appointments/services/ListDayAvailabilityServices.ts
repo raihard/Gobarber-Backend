@@ -44,14 +44,24 @@ class ListDayAvailabilityServices {
     //  should be able to schedule only 15 before
     // dateCurrent.add(-15, 'm');
 
+    const availableStartTime = moment(dateFind).hour(8);
+    const availableEndTime = moment(dateFind).hour(17);
+
     do {
-      const isAvailable = appointments.find(
+      const appointmentFind = appointments.find(
         appointment => moment(appointment.date).hour() === dateFind.hour(),
       );
+
+      const isAvailable =
+        dateFind >= availableStartTime &&
+        dateFind <= availableEndTime &&
+        dateFind.isAfter(dateCurrent) &&
+        !appointmentFind;
+
       available.push({
         hour: dateFind.hour(),
         minute: dateFind.minute(),
-        available: dateFind.isBefore(dateCurrent) ? false : !isAvailable,
+        available: isAvailable,
       });
       dateFind.add(1, 'h');
     } while (dateFind.date() === day);

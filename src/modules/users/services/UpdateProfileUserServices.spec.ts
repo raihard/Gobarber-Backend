@@ -13,12 +13,13 @@ let user: User;
 
 const name = 'Fakes';
 const email = 'Fakes@Fakes.com';
-const password = 'Fakes1213';
+let password: string;
 
 describe('UploadProfileUserServices', () => {
   beforeAll(async () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeBCryptHashPassword = new FakeBCryptHashPassword();
+    password = await fakeBCryptHashPassword.HashCrete('Fakes1213');
 
     uploadProfileUserServices = new UpdateProfileUserServices(
       fakeUsersRepository,
@@ -28,7 +29,7 @@ describe('UploadProfileUserServices', () => {
     await fakeUsersRepository.create({
       name: 'Outro Fulano',
       email: 'Fulano@Fakes.com',
-      password: 'Outro1213',
+      password: await fakeBCryptHashPassword.HashCrete('Outro1213'),
     });
 
     user = await fakeUsersRepository.create({
@@ -58,26 +59,14 @@ describe('UploadProfileUserServices', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to update password if the old password not informed', async () => {
-    await expect(
-      uploadProfileUserServices.execute({
-        user_id: user.id,
-        name,
-        email,
-        password: 'Fulano123',
-        oldpassword: '123456',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
   it('should not be able to update password if the password old not is equal', async () => {
     await expect(
       uploadProfileUserServices.execute({
         user_id: user.id,
         name,
         email,
-        password: 'Fulano123',
-        oldpassword: '123456',
+        password: 'newPass',
+        oldpassword: 'pass-erro',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

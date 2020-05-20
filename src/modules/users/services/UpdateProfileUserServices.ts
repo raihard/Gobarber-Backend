@@ -40,21 +40,20 @@ class UpdateProfileUserServices {
     if (userEmailFind && userEmailFind.id !== user.id)
       throw new AppError('This email is already used', 401);
 
-    if (password) {
-      if (!oldpassword)
-        throw new AppError('you need to inform the old password', 401);
+    if (password && !oldpassword)
+      throw new AppError('you need to inform the old password', 401);
 
-      const isMath = await this.hashPassword.HashCompare(
+    if (oldpassword) {
+      const isEqual = await this.hashPassword.HashCompare(
         oldpassword,
         user.password,
       );
-      if (!isMath) throw new AppError('Password old not valid', 401);
-
-      user.password = await this.hashPassword.HashCrete(password);
+      if (!isEqual) throw new AppError('Password old not valid', 401);
     }
 
-    if (name) user.name = name;
-    if (email) user.email = email;
+    if (password) user.password = await this.hashPassword.HashCrete(password);
+    user.name = name;
+    user.email = email;
 
     await this.usersRepository.save(user);
 

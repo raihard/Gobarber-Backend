@@ -49,6 +49,7 @@ describe('ListDayAvailabilityServices', () => {
         { hour: 11, minute: 0, available: true },
         { hour: 12, minute: 0, available: false },
         { hour: 13, minute: 0, available: true },
+        { hour: 18, minute: 0, available: false },
       ]),
     );
   });

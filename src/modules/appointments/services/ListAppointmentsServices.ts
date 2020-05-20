@@ -1,40 +1,36 @@
-import { startOfHour } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
-import AppError from '@shared/errors/AppError';
 import Appointment from '../infra/typeorm/entities/Appointments';
 
 interface IParmsRequest {
   provider_UserId: string;
-  parsedDate: Date;
+  day: number;
+  month: number;
+  year: number;
 }
 @injectable()
-class CreateAppointmentsServices {
+class ListAppointmentsServices {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
   ) {}
 
   public async execute({
-    parsedDate,
     provider_UserId,
-  }: IParmsRequest): Promise<Appointment> {
-    const startOfHourAgendamento = startOfHour(parsedDate);
-
-    const existAgendamento = await this.appointmentsRepository.findbyDate(
-      startOfHourAgendamento,
-    );
-
-    if (existAgendamento) throw new AppError('A agenda esta bloqueada', 401);
-
-    const appointment = await this.appointmentsRepository.create({
-      date: startOfHourAgendamento,
+    day,
+    month,
+    year,
+  }: IParmsRequest): Promise<Appointment[]> {
+    const appointments = await this.appointmentsRepository.findAllDayProvider({
       provider_UserId,
+      day,
+      month,
+      year,
     });
 
-    return appointment;
+    return appointments;
   }
 }
 
-export default CreateAppointmentsServices;
+export default ListAppointmentsServices;

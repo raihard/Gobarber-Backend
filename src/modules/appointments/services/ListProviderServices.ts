@@ -20,8 +20,7 @@ class ListProviderServices {
     let users: User[] = [];
     users = await this.usersRepository.findAll();
 
-    if (except_user_id)
-      users = users?.filter(user => user.id !== except_user_id);
+    users = users.filter(user => user.id !== except_user_id);
 
     return users;
   }
