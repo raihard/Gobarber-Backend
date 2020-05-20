@@ -6,6 +6,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 
 import { uuid } from 'uuidv4';
 import { isEqual } from 'date-fns';
+import moment from 'moment';
 
 class AppointmentsRepository implements IAppointmentsRepository {
   private appointments: Appointment[] = [];
@@ -15,11 +16,12 @@ class AppointmentsRepository implements IAppointmentsRepository {
     month,
     year,
   }: IFindMonthProviserDTO): Promise<Appointment[]> {
+    const datefind = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
     const listAppointment = this.appointments.filter(appointment => {
       return (
         appointment.provider_UserId === provider_UserId &&
-        isEqual(appointment.date.getFullYear(), year) &&
-        isEqual(appointment.date.getMonth(), month)
+        isEqual(appointment.date.getFullYear(), datefind.year()) &&
+        isEqual(appointment.date.getMonth(), datefind.month())
       );
     });
 
@@ -32,12 +34,13 @@ class AppointmentsRepository implements IAppointmentsRepository {
     month,
     year,
   }: IFindDayProviserDTO): Promise<Appointment[]> {
+    const datefind = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD');
     const listAppointment = this.appointments.filter(appointment => {
       return (
         appointment.provider_UserId === provider_UserId &&
-        isEqual(appointment.date.getFullYear(), year) &&
-        isEqual(appointment.date.getMonth(), month) &&
-        isEqual(appointment.date.getDate(), day)
+        isEqual(appointment.date.getFullYear(), datefind.year()) &&
+        isEqual(appointment.date.getMonth(), datefind.month()) &&
+        isEqual(appointment.date.getDate(), datefind.date())
       );
     });
 

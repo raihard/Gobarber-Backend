@@ -39,16 +39,19 @@ class ListDayAvailabilityServices {
       'YYYY-MM-DD HH:mm',
     );
     const available = [];
+    const dateCurrent = moment(moment.now());
+
+    //  should be able to schedule only 15 before
+    // dateCurrent.add(-15, 'm');
 
     do {
       const isAvailable = appointments.find(
-        appointment => appointment.date.getHours() === dateFind.hour(),
+        appointment => moment(appointment.date).hour() === dateFind.hour(),
       );
-
       available.push({
         hour: dateFind.hour(),
         minute: dateFind.minute(),
-        available: !isAvailable,
+        available: dateFind.isBefore(dateCurrent) ? false : !isAvailable,
       });
       dateFind.add(1, 'h');
     } while (dateFind.date() === day);
