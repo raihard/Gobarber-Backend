@@ -13,12 +13,14 @@ describe('ListAppointmentsServices', () => {
     const provider_UserId = '123412';
     const appointment = await createAppointmentsServices.execute({
       parsedDate,
+      user_id: '321',
       provider_UserId,
     });
     expect(appointment).toHaveProperty('id');
     expect(
       createAppointmentsServices.execute({
         parsedDate,
+        user_id: '321',
         provider_UserId,
       }),
     ).rejects.toBeInstanceOf(AppError);

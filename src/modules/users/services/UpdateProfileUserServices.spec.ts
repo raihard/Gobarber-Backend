@@ -4,11 +4,11 @@ import FakeBCryptHashPassword from '@modules/users/providers/HashPassword/implem
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
-import UploadProfileUserServices from './UploadProfileUserServices';
+import UpdateProfileUserServices from './UpdateProfileUserServices';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeBCryptHashPassword: FakeBCryptHashPassword;
-let uploadProfileUserServices: UploadProfileUserServices;
+let uploadProfileUserServices: UpdateProfileUserServices;
 let user: User;
 
 const name = 'Fakes';
@@ -20,7 +20,7 @@ describe('UploadProfileUserServices', () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeBCryptHashPassword = new FakeBCryptHashPassword();
 
-    uploadProfileUserServices = new UploadProfileUserServices(
+    uploadProfileUserServices = new UpdateProfileUserServices(
       fakeUsersRepository,
       fakeBCryptHashPassword,
     );
@@ -78,6 +78,18 @@ describe('UploadProfileUserServices', () => {
         email,
         password: 'Fulano123',
         oldpassword: '123456',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to update password if the password old empty', async () => {
+    await expect(
+      uploadProfileUserServices.execute({
+        user_id: user.id,
+        name,
+        email,
+        password: 'Fulano123',
+        // oldpassword: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

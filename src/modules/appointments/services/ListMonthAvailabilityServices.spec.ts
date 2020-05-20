@@ -10,6 +10,7 @@ describe('ListMonthAvailabilityServices', () => {
 
     await fakeAppointmentsRepository.create({
       date: new Date('2020-04-04T08:00'),
+      user_id: '123',
       provider_UserId: '321',
     });
 
@@ -17,6 +18,7 @@ describe('ListMonthAvailabilityServices', () => {
     do {
       fakeAppointmentsRepository.create({
         date: dateInput.toDate(),
+        user_id: '123',
         provider_UserId: '321',
       });
       dateInput.add(1, 'h');
@@ -26,6 +28,7 @@ describe('ListMonthAvailabilityServices', () => {
     do {
       fakeAppointmentsRepository.create({
         date: dateInput.toDate(),
+        user_id: '123',
         provider_UserId: '321',
       });
       dateInput.add(1, 'h');
@@ -33,11 +36,13 @@ describe('ListMonthAvailabilityServices', () => {
 
     await fakeAppointmentsRepository.create({
       date: new Date('2020-05-07T13:00'),
+      user_id: '123',
       provider_UserId: '321',
     });
 
     await fakeAppointmentsRepository.create({
       date: new Date('2020-06-04T08:00'),
+      user_id: '123',
       provider_UserId: '321',
     });
 
@@ -54,13 +59,13 @@ describe('ListMonthAvailabilityServices', () => {
     });
     expect(monthAvailability).toEqual(
       expect.arrayContaining([
-        { day: 3, available: false },
-        { day: 4, available: true },
-        { day: 5, available: false },
-        { day: 6, available: false },
-        { day: 7, available: false },
-        { day: 8, available: true },
-        { day: 9, available: false },
+        { day: 3, available: true },
+        { day: 4, available: false },
+        { day: 5, available: true },
+        { day: 6, available: true },
+        { day: 7, available: true },
+        { day: 8, available: false },
+        { day: 9, available: true },
       ]),
     );
   });

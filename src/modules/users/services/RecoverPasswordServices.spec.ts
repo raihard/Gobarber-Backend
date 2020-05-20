@@ -38,7 +38,7 @@ describe('RecoverPasswordServices', () => {
     expect(user).toHaveProperty('id');
 
     const reponse = await recoverPasswordServices.execute({ email });
-    console.log('Token criado', reponse);
+
     expect(reponse).toHaveProperty('token');
 
     expect(

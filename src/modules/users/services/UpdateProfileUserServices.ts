@@ -15,7 +15,7 @@ interface IParmsRequest {
 }
 
 @injectable()
-class UploadProfileUserServices {
+class UpdateProfileUserServices {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -62,4 +62,4 @@ class UploadProfileUserServices {
   }
 }
 
-export default UploadProfileUserServices;
+export default UpdateProfileUserServices;

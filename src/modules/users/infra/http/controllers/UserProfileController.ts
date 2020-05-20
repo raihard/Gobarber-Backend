@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import UploadProfileUserServices from '@modules/users/services/UploadProfileUserServices';
+import UpdateProfileUserServices from '@modules/users/services/UpdateProfileUserServices';
 import ShowProfileUserServices from '@modules/users/services/ShowProfileUserServices';
 
 export default class UserProfileController {
@@ -20,7 +20,7 @@ export default class UserProfileController {
     const user_id = request.user.id;
     const { name, email, oldpassword, password } = request.body;
 
-    const uploadProfileUser = container.resolve(UploadProfileUserServices);
+    const uploadProfileUser = container.resolve(UpdateProfileUserServices);
 
     const user = await uploadProfileUser.execute({
       user_id,

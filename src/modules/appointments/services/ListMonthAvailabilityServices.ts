@@ -33,7 +33,7 @@ class ListMonthAvailabilityServices {
 
     do {
       const isAvailable = appointments.filter(
-        appointment => appointment.date.getDate() === dateFind.date(),
+        appointment => moment(appointment.date).date() === dateFind.date(),
       );
 
       available.push({

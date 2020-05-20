@@ -7,6 +7,7 @@ import Appointment from '../infra/typeorm/entities/Appointments';
 
 interface IParmsRequest {
   provider_UserId: string;
+  user_id: string;
   parsedDate: Date;
 }
 @injectable()
@@ -18,6 +19,7 @@ class CreateAppointmentsServices {
 
   public async execute({
     parsedDate,
+    user_id,
     provider_UserId,
   }: IParmsRequest): Promise<Appointment> {
     const startOfHourAgendamento = startOfHour(parsedDate);
@@ -30,6 +32,7 @@ class CreateAppointmentsServices {
 
     const appointment = await this.appointmentsRepository.create({
       date: startOfHourAgendamento,
+      user_id,
       provider_UserId,
     });
 
