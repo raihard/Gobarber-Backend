@@ -21,7 +21,7 @@ describe('AuthenticateUserServices', () => {
     const email = 'Fakes@Fakes.com';
     const password = 'Fakes1213';
 
-    const user = await createUsersServices.execute({
+    await createUsersServices.execute({
       name,
       email,
       password,
