@@ -3,6 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import moment from 'moment';
 
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
+import INotificationsRepository from '@modules/notifications/repositores/INotificationsRepository';
 import AppError from '@shared/errors/AppError';
 import Appointment from '../infra/typeorm/entities/Appointments';
 
@@ -16,6 +17,9 @@ class CreateAppointmentsServices {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
+
+    @inject('NotificationsRepository')
+    private notificationsRepository: INotificationsRepository,
   ) {}
 
   public async execute({
@@ -27,10 +31,19 @@ class CreateAppointmentsServices {
 
     const dateAgendamento = moment(startOfHourAgendamento);
     const dateCurrent = moment(moment.now());
-    const availableStartTime = moment(dateCurrent).hour(8);
-    const availableEndTime = moment(dateCurrent).hour(17);
+    const availableStartTime = moment(dateAgendamento)
+      .hour(8)
+      .minute(0)
+      .second(0);
+    const availableEndTime = moment(dateAgendamento)
+      .hour(17)
+      .minute(0)
+      .second(0);
 
-    if (!dateAgendamento.isBetween(availableStartTime, availableEndTime))
+    if (
+      dateAgendamento < availableStartTime ||
+      dateAgendamento > availableEndTime
+    )
       throw new AppError(
         'Não é permetido agendar antes das 18 ou depois da 17horas',
         401,
@@ -54,6 +67,14 @@ class CreateAppointmentsServices {
       provider_UserId,
     });
 
+    const dateFormat = dateAgendamento.format(
+      'dddd, YY [de] MMMM [de] YYYY [às] HH:mm',
+    );
+
+    this.notificationsRepository.create({
+      recipient_id: provider_UserId,
+      content: `Novo agendamento para ${dateFormat}`,
+    });
     return appointment;
   }
 }
