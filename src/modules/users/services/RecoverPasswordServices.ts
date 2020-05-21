@@ -45,7 +45,7 @@ class RecoverPasswordServices {
         templateFile: templateForgotPasswor,
         varibles: {
           name: user.name,
-          link: `http://localhost:3000/ResetPassword?token=${userToken.token}`,
+          link: `${process.env.APP_WEB_URL}/ResetPassword?token=${userToken.token}`,
         },
       },
     });
