@@ -7,7 +7,8 @@ import cors from 'cors';
 import { errors } from 'celebrate';
 
 import UploadConfig from '@config/upload';
-import AppError from '@shared/errors/AppError'; // '@shared/errors/AppError'; // errors/AppError';
+import AppError from '@shared/errors/AppError';
+import rateLimited from '@shared/infra/http/middiewares/rateLimited';
 import 'shared/container';
 import routes from './routes';
 import '../typeorm';
@@ -15,7 +16,7 @@ import 'moment/locale/pt-br';
 
 const app = express();
 app.use(cors());
-
+app.use(rateLimited);
 app.use(express.json());
 app.use('/files', express.static(UploadConfig.pathUploads));
 app.use(routes);
