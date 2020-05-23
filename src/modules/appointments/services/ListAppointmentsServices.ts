@@ -1,6 +1,8 @@
 import { injectable, inject } from 'tsyringe';
 
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
+import ICaches from '@modules/Caches/models/ICaches';
+import moment from 'moment';
 import Appointment from '../infra/typeorm/entities/Appointments';
 
 interface IParmsRequest {
@@ -14,6 +16,9 @@ class ListAppointmentsServices {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
+
+    @inject('Caches')
+    private caches: ICaches,
   ) {}
 
   public async execute({
@@ -22,12 +27,23 @@ class ListAppointmentsServices {
     month,
     year,
   }: IParmsRequest): Promise<Appointment[]> {
-    const appointments = await this.appointmentsRepository.findAllDayProvider({
-      provider_UserId,
-      day,
-      month,
-      year,
-    });
+    const dateFind = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').format(
+      'YYYY-MM-DD',
+    );
+
+    const keyCache = `appointments:${provider_UserId}-${dateFind}`;
+
+    let appointments = await this.caches.recover<Appointment[]>(keyCache);
+
+    if (!appointments) {
+      appointments = await this.appointmentsRepository.findAllDayProvider({
+        provider_UserId,
+        day,
+        month,
+        year,
+      });
+      await this.caches.save(keyCache, appointments);
+    }
 
     return appointments;
   }

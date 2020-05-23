@@ -58,7 +58,7 @@ describe('ListMonthAvailabilityServices', () => {
       year: 2020,
     });
     expect(monthAvailability).toEqual(
-      expect.arrayContaining([
+      await expect.arrayContaining([
         { day: 3, available: true },
         { day: 4, available: false },
         { day: 5, available: true },

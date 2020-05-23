@@ -42,7 +42,7 @@ describe('ListDayAvailabilityServices', () => {
       year: 2020,
     });
     expect(monthAvailability).toEqual(
-      expect.arrayContaining([
+      await expect.arrayContaining([
         { hour: 8, minute: 0, available: false },
         { hour: 9, minute: 0, available: false },
         { hour: 10, minute: 0, available: false },

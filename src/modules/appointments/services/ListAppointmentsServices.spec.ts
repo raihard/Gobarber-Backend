@@ -1,6 +1,6 @@
 // import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
 import FakeAppointmentsRepository from '@modules/appointments/repositores/fakes/FakeAppointmentsRepository';
-
+import FakeCache from '@modules/Caches/fakes/FakeCache';
 import ListAppointmentsServices from './ListAppointmentsServices';
 
 describe('ListAppointmentsServices', () => {
@@ -24,8 +24,11 @@ describe('ListAppointmentsServices', () => {
       user_id: '123',
       provider_UserId: '321',
     });
+
+    const fakeCache = new FakeCache();
     const listDayAvailability = new ListAppointmentsServices(
       fakeAppointmentsRepository,
+      fakeCache,
     );
 
     const appointments = await listDayAvailability.execute({

@@ -7,7 +7,7 @@ import CreateAppointmentsServices from '@modules/appointments/services/CreateApp
 export default class AppointmentsControlles {
   public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { provider_UserId, date } = request.body;
+    const { provider_UserId, toAnotherUser_id, date } = request.body;
     const parsedDate = parseISO(date);
 
     const createAppointmentsServices = container.resolve(
@@ -15,7 +15,8 @@ export default class AppointmentsControlles {
     );
     const appointment = await createAppointmentsServices.execute({
       provider_UserId,
-      user_id,
+      loggedUser_id: user_id,
+      toAnotherUser_id,
       parsedDate,
     });
     return response.json(appointment);

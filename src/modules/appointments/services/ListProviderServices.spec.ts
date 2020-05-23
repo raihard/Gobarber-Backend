@@ -1,11 +1,12 @@
 // import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import User from '@modules/users/infra/typeorm/entities/User';
+import FakeCache from '@modules/Caches/fakes/FakeCache';
 import ListProviderServices from './ListProviderServices';
 
 let fakeUsersRepository: FakeUsersRepository;
 let listProviderServices: ListProviderServices;
-
+let fakeCache: FakeCache;
 let userLogged: User;
 let user1: User;
 let user2: User;
@@ -13,8 +14,11 @@ let user2: User;
 describe('ShowProfileUserServices', () => {
   beforeAll(async () => {
     fakeUsersRepository = new FakeUsersRepository();
-    listProviderServices = new ListProviderServices(fakeUsersRepository);
-
+    fakeCache = new FakeCache();
+    listProviderServices = new ListProviderServices(
+      fakeUsersRepository,
+      fakeCache,
+    );
     user1 = await fakeUsersRepository.create({
       name: 'Joao',
       email: 'Joao@Fakes.com',

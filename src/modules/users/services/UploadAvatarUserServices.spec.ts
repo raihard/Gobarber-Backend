@@ -1,7 +1,10 @@
 import AppError from '@shared/errors/AppError';
+
 import FakeDiskStorage from '@shared/container/providers/StorageFile/implements/fakes/FakeDiskStorage';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeBCryptHashPassword from '@modules/users/providers/HashPassword/implements/fakes/FakeBCryptHashPassword';
+import FakeCache from '@modules/Caches/fakes/FakeCache';
+
 import UploadAvatarUserServices from '@modules/users/services/UploadAvatarUserServices';
 import CreateUsersServices from './CreateUsersServices';
 
@@ -10,10 +13,12 @@ describe('AuthenticateUserServices', () => {
     const fakeDiskStorage = new FakeDiskStorage();
     const fakeUsersRepository = new FakeUsersRepository();
     const fakeBCryptHashPassword = new FakeBCryptHashPassword();
+    const fakeCache = new FakeCache();
 
     const createUsersServices = new CreateUsersServices(
       fakeUsersRepository,
       fakeBCryptHashPassword,
+      fakeCache,
     );
 
     const uploadAvatarUserServices = new UploadAvatarUserServices(
@@ -46,7 +51,7 @@ describe('AuthenticateUserServices', () => {
     });
 
     expect(response).toHaveProperty('avatar');
-    expect(
+    await expect(
       uploadAvatarUserServices.execute({
         avatar_filename,
         user_id: '321',

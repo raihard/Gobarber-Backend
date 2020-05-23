@@ -7,6 +7,7 @@ import AppError from '@shared/errors/AppError';
 import CreateUsersServices from '@modules/users/services/CreateUsersServices';
 import RecoverPasswordServices from '@modules/users/services/RecoverPasswordServices';
 import ResetPasswordServices from '@modules/users/services/ResetPasswordServices';
+import FakeCache from '@modules/Caches/fakes/FakeCache';
 
 describe('ResetPasswordServices', () => {
   it('should be able to reset password in a link valid', async () => {
@@ -14,10 +15,12 @@ describe('ResetPasswordServices', () => {
     const fakeUserTokenRepository = new FakeUserTokenRepository();
     const fakeBCryptHashPassword = new FakeBCryptHashPassword();
     const fakeMailtrapSend = new FakeMailtrapSend();
+    const fakeCache = new FakeCache();
 
     const createUsersServices = new CreateUsersServices(
       fakeUsersRepository,
       fakeBCryptHashPassword,
+      fakeCache,
     );
 
     const recoverPasswordServices = new RecoverPasswordServices(
@@ -60,7 +63,7 @@ describe('ResetPasswordServices', () => {
       return newDate.setHours(newDate.getHours() + 4);
     });
     const newUserToken = await recoverPasswordServices.execute({ email });
-    expect(
+    await expect(
       resetPasswordServices.execute({
         token: newUserToken.token,
         password: NewPassword,
@@ -68,7 +71,7 @@ describe('ResetPasswordServices', () => {
     ).rejects.toBeInstanceOf(AppError);
 
     // Test with token not expired
-    expect(
+    await expect(
       resetPasswordServices.execute({
         token: '65654',
         password: NewPassword,
@@ -76,10 +79,10 @@ describe('ResetPasswordServices', () => {
     ).rejects.toBeInstanceOf(AppError);
 
     // Test with user not found
-    const spy = jest
+    jest
       .spyOn(fakeUsersRepository, 'findById')
       .mockImplementationOnce(async () => undefined);
-    expect(
+    await expect(
       resetPasswordServices.execute({
         token: newUserToken.token,
         password: NewPassword,

@@ -38,7 +38,7 @@ class ListDayAvailabilityServices {
       `${year}-${month}-${day} 00:00`,
       'YYYY-MM-DD HH:mm',
     );
-    const available = [];
+    const available: IListDayhAvailability[] = [];
     const dateCurrent = moment(moment.now());
 
     //  should be able to schedule only 15 before

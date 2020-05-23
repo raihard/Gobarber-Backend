@@ -6,7 +6,7 @@ import ICreateNotificationDTO from '@modules/notifications/dtos/ICreateNotificat
 import Notification from '@modules/notifications/infra/typeorm/schemas/Notification';
 
 class NotificationsRepository implements INotificationsRepository {
-  private notifications: Notification[];
+  private notifications: Notification[] = [];
 
   public async create({
     content,

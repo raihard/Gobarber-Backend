@@ -6,6 +6,7 @@ import FakeBCryptHashPassword from '@modules/users/providers/HashPassword/implem
 import RecoverPasswordServices from '@modules/users/services/RecoverPasswordServices';
 import FakeMailtrapSend from '@shared/container/providers/Mail/implements/fakes/FakeMailtrapSend';
 
+import FakeCache from '@modules/Caches/fakes/FakeCache';
 import CreateUsersServices from './CreateUsersServices';
 
 describe('RecoverPasswordServices', () => {
@@ -14,10 +15,12 @@ describe('RecoverPasswordServices', () => {
     const fakeUserTokenRepository = new FakeUserTokenRepository();
     const fakeBCryptHashPassword = new FakeBCryptHashPassword();
     const fakeMailtrapSend = new FakeMailtrapSend();
+    const fakeCache = new FakeCache();
 
     const createUsersServices = new CreateUsersServices(
       fakeUsersRepository,
       fakeBCryptHashPassword,
+      fakeCache,
     );
 
     const recoverPasswordServices = new RecoverPasswordServices(
@@ -41,7 +44,7 @@ describe('RecoverPasswordServices', () => {
 
     expect(reponse).toHaveProperty('token');
 
-    expect(
+    await expect(
       recoverPasswordServices.execute({ email: 'a@a.com' }),
     ).rejects.toBeInstanceOf(AppError);
   });
