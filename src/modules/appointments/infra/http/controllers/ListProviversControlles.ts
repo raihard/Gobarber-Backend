@@ -9,7 +9,8 @@ export default class ListProviversControlles {
     const user_id = request.user.id;
 
     const listProvider = container.resolve(ListProviderServices);
-    const appointment = await listProvider.execute({ except_user_id: user_id });
-    return response.json(appointment);
+    const providers = await listProvider.execute({ except_user_id: user_id });
+
+    return response.json(providers);
   }
 }

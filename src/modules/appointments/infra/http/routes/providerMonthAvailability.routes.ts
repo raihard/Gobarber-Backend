@@ -21,14 +21,14 @@ routes.get(
   listMonthAvailabilityControlles.show,
 );
 
-routes.get(
-  '/:provider_id/',
-  celebrate({
-    [Segments.PARAMS]: {
-      provider_id: Joi.string().required().uuid(),
-    },
-  }),
-  listMonthAvailabilityControlles.show,
-);
+// routes.get(
+//   '/:provider_id/',
+//   celebrate({
+//     [Segments.PARAMS]: {
+//       provider_id: Joi.string().required().uuid(),
+//     },
+//   }),
+//   listMonthAvailabilityControlles.show,
+// );
 
 export default routes;

@@ -1,4 +1,5 @@
 import { getRepository, Repository, Between } from 'typeorm';
+
 import moment from 'moment';
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
 import ICreateAppointmentsDTO from '@modules/appointments/dtos/ICreateAppointmentsDTO';
@@ -27,6 +28,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
         provider_UserId,
         date: Between(dateStart, dateEnd),
       },
+      relations: ['user'],
     });
 
     return appointments;
@@ -50,8 +52,13 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointments;
   }
 
-  public async findbyDate(date: Date): Promise<Appointment | undefined> {
-    const appointment = await this.ormRepository.findOne({ where: { date } });
+  public async findbyDate(
+    date: Date,
+    provider_UserId: string,
+  ): Promise<Appointment | undefined> {
+    const appointment = await this.ormRepository.findOne({
+      where: { provider_UserId, date },
+    });
     return appointment;
   }
 

@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 // import AppError from '@shared/errors/AppError';
@@ -28,6 +29,7 @@ class ListProviderServices {
     if (!users) {
       users = await this.usersRepository.findAll();
       users = users.filter(user => user.id !== except_user_id);
+      users = classToClass(users);
       await this.caches.save(`provider-list:${except_user_id}`, users);
     }
 

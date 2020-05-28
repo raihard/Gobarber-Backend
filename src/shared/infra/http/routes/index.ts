@@ -18,7 +18,7 @@ routes.use('/profile', profileRouter);
 routes.use('/password', passwordRouter);
 
 routes.use('/providers', providersRouter);
-routes.use('/providerMonthAvailability', providerMonthAvailabilityRouter);
-routes.use('/providerDayAvailability', providerDayAvailabilityRouter);
+routes.use('/:provider_id/MonthAvailability', providerMonthAvailabilityRouter);
+routes.use('/:provider_id/DayAvailability', providerDayAvailabilityRouter);
 routes.use('/appointments', appointmentsRouter);
 export default routes;

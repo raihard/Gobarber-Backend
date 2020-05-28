@@ -33,8 +33,8 @@ class ListAppointmentsServices {
 
     const keyCache = `appointments:${provider_UserId}-${dateFind}`;
 
-    let appointments = await this.caches.recover<Appointment[]>(keyCache);
-
+    // let appointments = await this.caches.recover<Appointment[]>(keyCache);
+    let appointments;
     if (!appointments) {
       appointments = await this.appointmentsRepository.findAllDayProvider({
         provider_UserId,

@@ -13,6 +13,7 @@ export default class AppointmentsControlles {
     const createAppointmentsServices = container.resolve(
       CreateAppointmentsServices,
     );
+
     const appointment = await createAppointmentsServices.execute({
       provider_UserId,
       loggedUser_id: user_id,

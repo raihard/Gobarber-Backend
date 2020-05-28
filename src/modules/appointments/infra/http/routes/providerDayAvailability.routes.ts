@@ -12,8 +12,10 @@ const listDayAvailabilityControlles = new ListDayAvailabilityControlles();
 routes.get(
   '/',
   celebrate({
-    [Segments.BODY]: {
+    [Segments.QUERY]: {
       provider_id: Joi.string().required().uuid(),
+    },
+    [Segments.QUERY]: {
       day: Joi.number().required(),
       month: Joi.number().required(),
       year: Joi.number().required(),
@@ -22,14 +24,14 @@ routes.get(
   listDayAvailabilityControlles.show,
 );
 
-routes.get(
-  '/:provider_id/',
-  celebrate({
-    [Segments.PARAMS]: {
-      provider_id: Joi.string().required().uuid(),
-    },
-  }),
-  listDayAvailabilityControlles.show,
-);
+// routes.get(
+//   '/:provider_id/',
+//   celebrate({
+//     [Segments.PARAMS]: {
+//       provider_id: Joi.string().required().uuid(),
+//     },
+//   }),
+//   listDayAvailabilityControlles.show,
+// );
 
 export default routes;

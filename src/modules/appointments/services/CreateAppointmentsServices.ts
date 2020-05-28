@@ -63,6 +63,7 @@ class CreateAppointmentsServices {
 
     const existAgendamento = await this.appointmentsRepository.findbyDate(
       startOfHourAgendamento,
+      provider_UserId,
     );
 
     if (existAgendamento) throw new AppError('A agenda esta bloqueada', 401);
