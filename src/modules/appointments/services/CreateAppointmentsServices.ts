@@ -36,7 +36,7 @@ class CreateAppointmentsServices {
     const startOfHourAgendamento = startOfHour(parsedDate);
 
     const dateAgendamento = moment(startOfHourAgendamento);
-    const dateCurrent = moment(moment.now());
+
     const availableStartTime = moment(dateAgendamento)
       .hour(8)
       .minute(0)
@@ -58,8 +58,8 @@ class CreateAppointmentsServices {
     if (loggedUser_id === provider_UserId && !toAnotherUser_id)
       throw new AppError('Não é permetido agendar para você mesmo!', 401);
 
-    if (dateAgendamento.isBefore(dateCurrent))
-      throw new AppError('Não é permetido agendar no passado!', 401);
+    // if (dateAgendamento.isBefore(dateCurrent))
+    //   throw new AppError('Não é permetido agendar no passado!', 401);
 
     const existAgendamento = await this.appointmentsRepository.findbyDate(
       startOfHourAgendamento,

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verify } from 'jsonwebtoken';
+import { verify, TokenExpiredError } from 'jsonwebtoken';
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
 
@@ -20,6 +20,14 @@ export default function ensureAuthenticated(
   const [, token] = authHeader.split(' ');
 
   verify(token, authConfig.jwt.secret, (err, decoded) => {
+    const socket = request.io;
+    const { ioUser } = request;
+
+    if (err instanceof TokenExpiredError) {
+      socket.to(ioUser).emit('loggout');
+      return response.status(204).json();
+    }
+
     if (err) throw new AppError(err.message, 401);
     const { sub } = decoded as ITokenPayLoad;
     request.user = {

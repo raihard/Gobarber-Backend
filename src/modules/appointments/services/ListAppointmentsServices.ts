@@ -3,6 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import IAppointmentsRepository from '@modules/appointments/repositores/IAppointmentsRepository';
 import ICaches from '@modules/Caches/models/ICaches';
 import moment from 'moment';
+import { classToClass } from 'class-transformer';
 import Appointment from '../infra/typeorm/entities/Appointments';
 
 interface IParmsRequest {
@@ -42,6 +43,7 @@ class ListAppointmentsServices {
         month,
         year,
       });
+      appointments = classToClass(appointments);
       await this.caches.save(keyCache, appointments);
     }
 

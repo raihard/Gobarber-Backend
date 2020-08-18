@@ -12,6 +12,10 @@ import providersRouter from '@modules/appointments/infra/http/routes/providers.r
 
 const routes = Router();
 
+routes.get('/', (req, res) => {
+  res.status(204).json();
+});
+
 routes.use('/sessions', sessionsRouter);
 routes.use('/users', usersRouter);
 routes.use('/profile', profileRouter);

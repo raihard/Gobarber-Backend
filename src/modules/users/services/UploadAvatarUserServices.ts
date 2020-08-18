@@ -3,6 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IStorageFile from '@shared/container/providers/StorageFile/IStorageFile';
 import AppError from '@shared/errors/AppError';
+import ICaches from '@modules/Caches/models/ICaches';
 import User from '../infra/typeorm/entities/User';
 
 interface IParmsRequest {
@@ -17,6 +18,8 @@ class UploadAvatarUserServices {
     private usersRepository: IUsersRepository,
     @inject('StorageFile')
     private storageFile: IStorageFile,
+    @inject('Caches')
+    private caches: ICaches,
   ) {}
 
   public async execute({
@@ -35,6 +38,7 @@ class UploadAvatarUserServices {
     user.avatar = userAvatar;
 
     await this.usersRepository.save(user);
+    await this.caches.invalidatePrefix(`provider-list`);
     return user;
   }
 }

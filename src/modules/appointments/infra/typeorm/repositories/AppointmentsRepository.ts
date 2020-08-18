@@ -29,6 +29,9 @@ class AppointmentsRepository implements IAppointmentsRepository {
         date: Between(dateStart, dateEnd),
       },
       relations: ['user'],
+      order: {
+        date: 'ASC',
+      },
     });
 
     return appointments;

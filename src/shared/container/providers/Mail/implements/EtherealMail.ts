@@ -25,7 +25,7 @@ export default class EtherealMail implements ISendMail {
       });
 
       this.client = transporter;
-      console.log('account mail ', account);
+      // console.log('account mail ', account);
     });
   }
 
