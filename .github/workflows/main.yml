@@ -22,7 +22,7 @@ jobs:
      
      #executar build
     - name: run build
-      run: yarn
+      run: yarn build
 
     #copiar a pasta dist na Digital Ocean
     - name: copy file dist to DigitalOcean
