@@ -1,3 +1,7 @@
+interface IConnectedUser {
+  userIO: string;
+  user: string;
+}
 declare namespace Express {
   // eslint-disable-next-line @typescript-eslint/interface-name-prefix
   export interface Request {
@@ -6,6 +10,6 @@ declare namespace Express {
     };
     io: SocketIO.Server;
     ioUser: string;
-    connectedUsers: string[];
+    connectedUsers: IConnectedUser[];
   }
 }

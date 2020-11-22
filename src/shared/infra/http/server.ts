@@ -21,26 +21,83 @@ const app = express();
 const server = new http.Server(app);
 const sockets = socketio(server);
 
-const connectedUsers: string[] = [];
-let user: string;
+// const connectedUsers: string[] = [];
+
+interface IProps {
+  x?: number;
+  y?: number;
+  scale?: number;
+  rot?: number;
+  delay?: number;
+}
+interface ICards {
+  id: string;
+  card?: string;
+  cardUrl: string;
+  styles?: IProps;
+  showFront: boolean;
+}
+export interface ICardTarot {
+  card: ICards;
+}
+interface IConnectedUser {
+  userIO: string;
+  user: string;
+}
+const connectedUsers: IConnectedUser[] = [];
 
 sockets.on('connection', socket => {
-  user = socket.id;
-  connectedUsers.push(user);
+  const { user } = socket.handshake.query;
+  const connectedUser: IConnectedUser = {
+    user,
+    userIO: socket.id,
+  };
+  connectedUsers.push(connectedUser);
 
   socket.on('disconnect', () => {
-    const userIndex = connectedUsers.findIndex(index => index === user);
+    const userIndex = connectedUsers.findIndex(
+      index => index.userIO === socket.id,
+    );
     connectedUsers.splice(userIndex, 1);
-    console.log(`> User disconnected on server with id: ${user}`);
+    console.log(`> User disconnected on server with id: ${userIndex}`);
   });
 
+  socket.on('cardTarot', (cardTarot: ICardTarot) => {
+    console.log('cardTarot', cardTarot);
+
+    connectedUsers.map(userCard => {
+      if (userCard.userIO !== socket.id)
+        return socket.to(userCard.userIO).emit('cardTarotServer', cardTarot);
+      return null;
+    });
+  });
+
+  socket.on('cardTarotOpenClient', (cardTarot: ICardTarot) => {
+    console.log('cardTarotOpenClient', cardTarot);
+
+    connectedUsers.map(userCard => {
+      if (userCard.userIO !== socket.id)
+        return socket.to(userCard.userIO).emit('onFlipCardServer', cardTarot);
+      return null;
+    });
+  });
+
+  socket.on('showScaleCardClient', (cardTarot: ICardTarot) => {
+    console.log('showScaleCardClient', cardTarot);
+
+    connectedUsers.map(userCard => {
+      if (userCard.userIO !== socket.id)
+        return socket
+          .to(userCard.userIO)
+          .emit('showScaleCardServer', cardTarot);
+      return null;
+    });
+  });
   console.log('Server connectedUsers', connectedUsers);
-  // console.log('< User CONNECTED on server with id:', user);
 });
 
 app.use((request: Request, response: Response, next: NextFunction) => {
   request.io = sockets;
-  request.ioUser = user;
   request.connectedUsers = connectedUsers;
   return next();
 });
